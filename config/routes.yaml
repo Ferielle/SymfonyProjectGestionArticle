@@ -1,0 +1,24 @@
+# config/routes.yaml
+
+article_add:
+    path: /api/addarticles
+    controller: App\Controller\ArticleController::addArticle
+
+article_list:
+    path: /api/articles
+    controller: App\Controller\ArticleController::getAllArticles
+
+article_get:
+    path: /api/articles/{id}
+    controller: App\Controller\ArticleController::getArticleById
+article_delete:
+    path: /api/articles/delete/{id}
+    controller: App\Controller\ArticleController::deleteArticleById
+article_update:
+    path: /api/articles/update/{id}
+    controller: 'App\Controller\ArticleController::updateArticle'
+    methods: ['PUT']
+homepage:
+    path: /
+    controller: 'App\Controller\HomePageController::index'
+
