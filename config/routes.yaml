@@ -22,3 +22,18 @@ homepage:
     path: /
     controller: 'App\Controller\HomePageController::index'
 
+## La partie Web ##
+web_create_article:
+    path: /create-article
+    controller: 'App\Controller\WebArticleController::createArticle'
+web_article_list:
+    path: /article-list
+    controller: 'App\Controller\WebArticleController::listArticles'
+
+web_article_edit:
+    path: /article/{id}/edit
+    controller: App\Controller\WebArticleController::editArticle
+
+web_article_delete:
+    path: /article/{id}/delete
+    controller: App\Controller\WebArticleController::deleteArticle

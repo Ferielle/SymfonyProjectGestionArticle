@@ -1,0 +1,29 @@
+{# templates/web_article/list.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Article List</h1>
+
+    <div class="card-container">
+        {% for article in articles %}
+            <div class="card">
+            {% if article.image %}
+                    <img src="data:image/jpeg;base64,{{ article.image }}" alt="{{ article.title }}">
+                {% else %}
+                    <span>No Image</span>
+                {% endif %}                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ article.date|date('Y-m-d') }}</small></p>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+                <link rel="stylesheet" href="{{ asset('css/Style.css') }}">
+
+{% endblock %}
+{# templates/web_article/list.html.twig #}
+
+

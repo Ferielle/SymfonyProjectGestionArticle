@@ -1,0 +1,8 @@
+# config/packages/vich_uploader.yaml
+
+vich_uploader:
+    db_driver: orm # Choose the appropriate driver for your ORM, either "orm" or "mongodb"
+    mappings:
+        article_images:
+            uri_prefix: /uploads/articles
+            upload_destination: '%kernel.project_dir%/public/uploads/articles'

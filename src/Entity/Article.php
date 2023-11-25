@@ -131,4 +131,24 @@ class Article
 
         return $this;
     }
+    //la partie de l'encodage de l'image en base64 avant de l'ajouter dans la base de donnée 
+    private $imageFile;
+
+
+   
+    // Setter method to handle the base64-encoded image
+    public function setBase64EncodedImage($base64EncodedImage): self
+    {
+        $this->image = $base64EncodedImage;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return null; // Return null to avoid issues with VichUploader
+    }
 }

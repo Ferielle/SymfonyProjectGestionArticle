@@ -1,0 +1,12 @@
+{# templates/web_article/show.html.twig #}
+
+{# ... (existing content) #}
+
+<h3>{{ article.title }}</h3>
+<p>{{ article.description }}</p>
+
+{# Add delete button and form #}
+<form method="post" action="{{ path('web_article_delete', {'id': article.id}) }}" onsubmit="return confirm('Are you sure you want to delete this article?')">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+    <button type="submit">Delete Article</button>
+</form>
