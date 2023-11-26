@@ -1,0 +1,54 @@
+{# templates/article/details.html.twig #}
+
+{% block stylesheets %}
+    {# Ajoutez le lien vers votre fichier CSS personnalisé ici #}
+    <link rel="stylesheet" href="{{ asset('css/article-details.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="article-details-container">
+        <h1>Détails de l'Article</h1>
+        
+        <div class="article-card">
+            <div class="article-content">
+                <figure>
+                    {% if articleDetails.image %}
+                        <img src="data:image/jpeg;base64,{{ articleDetails.image }}" alt="{{ articleDetails.title }}">
+                    {% else %}
+                        <span>No Image</span>
+                    {% endif %}
+                </figure>
+                <div class="text-container">
+                    <div class="article-body">
+                        <h2>{{ articleDetails.title }}</h2>
+                        <p>{{ articleDetails.description }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <ul class="article-details-list">
+                <li><strong>Date de publication:</strong> {{ articleDetails.date|date('Y-m-d') }}</li>
+                {# Ajoutez d'autres détails de l'article ici #}
+            </ul>
+            
+            <div class="article-buttons">
+                <div class="modify-button">
+                    <a href="{{ path('web_article_edit', {'id': articleDetails.id}) }}">
+                        <button class="btn btn-primary" role="button">Modifier</button>
+                    </a>
+                </div>
+                
+                <div class="delete-button">
+                    <a href="{{ path('web_article_delete', {'id': articleDetails.id}) }}">
+                        <button class="btn btn-danger" role="button">Supprimer</button>
+                    </a>
+                </div>
+                 <div class="back-button">
+                <a href="{{ path('web_article_list') }}">
+                    <button class="btn btn-secondary" role="button">Retour à la liste</button>
+                </a>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -103,14 +103,14 @@ class Article
     }
 
     /**
-     * @return Collection<int, Theme>
+     * @return Collection<int, THEME>
      */
     public function getThemeArticle(): Collection
     {
         return $this->theme_article;
     }
 
-    public function addThemeArticle(Theme $themeArticle): self
+    public function addThemeArticle(THEME $themeArticle): self
     {
         if (!$this->theme_article->contains($themeArticle)) {
             $this->theme_article[] = $themeArticle;
@@ -120,7 +120,7 @@ class Article
         return $this;
     }
 
-    public function removeThemeArticle(Theme $themeArticle): self
+    public function removeThemeArticle(THEME $themeArticle): self
     {
         if ($this->theme_article->removeElement($themeArticle)) {
             // set the owning side to null (unless already changed)

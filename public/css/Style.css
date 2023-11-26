@@ -7,11 +7,13 @@
 }
 
 .card {
-    width: 300px;
+    width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    
 }
 
 .card img {
@@ -21,7 +23,7 @@
 }
 
 .card-body {
-    padding: 16px;
+    padding: 50px;
 }
 
 .card-title {
@@ -37,3 +39,22 @@
     max-width: 100%;
     height: auto;
 }
+.article-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px; /* Ajoutez de l'espace autour du contenu de l'article */
+    border: 1px solid #ccc; /* Ajoutez une bordure pour délimiter l'article */
+    border-radius: 8px; /* Ajoutez une bordure arrondie */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.buttons-container {
+    display: flex;
+}
+
+.buttons-container button {
+    margin-right: 10px; /* Ajustez cette valeur selon vos préférences */
+}
+
+

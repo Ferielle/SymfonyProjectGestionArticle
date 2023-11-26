@@ -3,18 +3,43 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\THEME;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 use function PHPSTORM_META\map;
 
 class WebArticleController extends AbstractController
 {
-    
+
+/**
+     * @Route("/article/{id}", name="article_details")
+     */
+    public function showDetails(Article $article,ArticleRepository $articleRepository): Response
+    {
+        // Utilisez cette ligne pour vérifier les données de l'image
+        dump($article->getImage());
+
+        // Utilisez find() au lieu de findbyid() pour obtenir un seul article par son ID
+        $articleDetails = $articleRepository->find($article->getId());
+
+        // Utilisez stream_get_contents uniquement si nécessaire
+        if ($articleDetails) {
+            $articleDetails->setImage(stream_get_contents($articleDetails->getImage()));
+        }
+
+        return $this->render('web_article/detail.html.twig', [
+            'articleDetails' => $articleDetails,
+        ]);
+    }
+
+
     /**
     * @Route("/create-article", name="web_create_article")
     */
@@ -75,35 +100,44 @@ class WebArticleController extends AbstractController
             return $article; // Return the modified article
         }, $articles);
     
-        return $this->render('home_page/index.html.twig', [
+        return $this->render('web_article/list.html.twig', [
             'articles' => $articles,
         ]);
     }
-     /**
-     * @Route("/article/{id}/edit", name="web_article_edit", methods={"GET", "POST"})
-     */
-    public function editArticle(Request $request, Article $article): Response
-    {
-        $form = $this->createForm(ArticleType::class, $article);
 
-        $form->handleRequest($request);
+ /**
+ * @Route("/article/{id}/edit", name="web_article_edit", methods={"GET", "POST"})
+ */
+public function editArticle(Request $request): Response
+{
+    $id = $request->get('id');
+    
+    // Obtenez l'article à éditer en fonction de l'ID
+    $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $uploadedFile = $form['image']->getData();
-            $encodedImage = $this->encodeImageToBase64($uploadedFile);
-            // Set the base64-encoded image in the article entity
-            $article->setImage($encodedImage);
+    
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
+    $form = $this->createForm(ArticleType::class, $article);
 
-            return $this->redirectToRoute('web_article_list');
-        }
+    $form->handleRequest($request);
 
-        return $this->render('web_article/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $uploadedFile = $form['image']->getData();
+        $encodedImage = $this->encodeImageToBase64($uploadedFile);
+        // Set the base64-encoded image in the article entity
+        $article->setImage($encodedImage);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->redirectToRoute('web_article_list');
     }
+
+    return $this->render('web_article/edit.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
     /**
      * @Route("/article/{id}/delete", name="web_article_delete", methods={"POST"})
      */

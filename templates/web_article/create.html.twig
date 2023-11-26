@@ -1,12 +1,54 @@
-{# templates/web_article/create.html.twig #}
-
-{% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    {# Add the link to your custom CSS file here #}
+    <link rel="stylesheet" href="{{ asset('css/article-form.css') }}">
+{% endblock %}
 {% block body %}
-    <h1>Create Article</h1>
+    <!-- Update the form structure in your HTML file -->
+<div class="container mt-5 article-form-container">
+    <h1 class="mb-4">Create Article</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Submit</button>
-    {{ form_end(form) }}
+    <form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="articleTitle">Title</label>
+                    <input type="text" class="form-control" id="articleTitle" placeholder="Enter the title">
+                </div>
+
+                <<div class="form-group">
+        {{ form_label(form.imageFile) }}
+        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="articleDescription">Description</label>
+                    <textarea class="form-control" id="articleDescription" placeholder="Enter the description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="articleDate">Date</label>
+                    <input type="date" class="form-control" id="articleDate">
+                </div>
+                <div class="form-group">
+                        {{ form_label(form.theme_article) }}
+                        {{ form_widget(form.theme_article, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+               
+               
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <br>
+                <div class="back-button">
+               <a href="{{ path('web_article_list') }}" class="btn btn-primary">Retour à la liste</a>
+               </div>
+
+            </div>
+
+        </div>
+       
+    </form>
+</div>
+
+
 {% endblock %}

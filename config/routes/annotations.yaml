@@ -1,6 +1,9 @@
 controllers:
     resource: ../../src/Controller/
     type: annotation
+entities:
+    resource: ../../src/Entity/
+    type: annotation
 
 kernel:
     resource: ../../src/Kernel.php

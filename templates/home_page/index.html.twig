@@ -1,70 +1,53 @@
 {# templates/home_page/index.html.twig #}
 {% extends 'base.html.twig' %}
+
 {% block body %}
+    <!DOCTYPE html>
+    <html>
 
-<!DOCTYPE html>
-<html>
+    <head>
+        <!-- Local style sheet relative to this file -->
+        <link rel="stylesheet" href="css/styleH.css">
+    </head>
 
-<head>
-    <!-- Local style sheet relative to this file -->
-    <link rel="stylesheet" href="css/styleH.css">
-</head>
-<body>
-    <div class="wrapper">
-        <h1>Top 20 articles of 2023</h1>
-        
-<a href="{{ path('web_create_article') }}">
+    <body>
+        <div class="wrapper">
+            <h1>Top 20 articles of 2023</h1>
 
-          <button class="button-3" role="button ">Ajouter un article</button></a>
-        </div>
-    
-    <section class="articles">
-      <article>
-        <div class="article-wrapper">
-          <figure>
-            <img src="https://c8.alamy.com/compfr/2bt15x2/illustration-conceptuelle-de-la-technologie-de-developpement-de-sites-web-mobiles-conception-de-pages-internet-de-mise-en-page-site-sur-ecran-de-telephone-logiciel-de-programmation-de-2bt15x2.jpg" alt="" />
-          </figure>
-          <div class="article-body">
-            <h2>This is some title</h2>
-            <p>
-              Curabitur convallis ac quam vitae laoreet. Nulla mauris ante, euismod sed lacus sit amet, congue bibendum eros. Etiam mattis lobortis porta. Vestibulum ultrices iaculis enim imperdiet egestas.
-            </p>
-            <a href="#" class="read-more">
-              published 11/09/2023 <span class="sr-only">about this is some title</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
+            <a href="{{ path('web_create_article') }}">
+                <button class="button-3" role="button">Ajouter un article</button>
             </a>
-            <p>#coding</p>
-          </div>
         </div>
-      </article>
-      <article>
-    
-       
-    
-        <div class="article-wrapper">
-          <figure>
-            <img src="https://www.pierre-giraud.com/wp-content/uploads/2019/08/devenir-developpeur-web-1.png" alt="" />
-          </figure>
-          <div class="article-body">
-            <h2>This is some title</h2>
-            <p>
-              Curabitur convallis ac quam vitae laoreet. Nulla mauris ante, euismod sed lacus sit amet, congue bibendum eros. Etiam mattis lobortis porta. Vestibulum ultrices iaculis enim imperdiet egestas.
-            </p>
-            <a href="#" class="read-more">
-              published 11/0/2023 <span class="sr-only">about this is some title</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-            <p>#coding</p>
-          </div>
-        </div>
-      </article>
-    </section>
-</body>
 
+        <section class="articles">
+            {% for article in articles %}
+                <article>
+                    <div class="article-wrapper">
+                        <figure>
+                            {% if article.image %}
+                                <img src="data:image/jpeg;base64,{{ article.image }}" alt="{{ article.title }}">
+                            {% else %}
+                                <span>No Image</span>
+                            {% endif %}
+                        </figure>
+                        <div class="article-body">
+                            <h2>{{ article.title }}</h2>
+                            <p>{{ article.description }}</p>
+                            <a href="#" class="read-more">
+                                published {{ article.date|date('Y-m-d') }} <span class="sr-only">{{ article.title }}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                            <p>#coding</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </body>
 
-</html>
+    </html>
 {% endblock %}

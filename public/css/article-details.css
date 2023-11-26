@@ -1,0 +1,81 @@
+/* public/css/article-details.css */
+
+.article-details-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.article-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.article-content {
+    display: flex;
+    margin-top: 20px;
+}
+
+.figure {
+    text-align: center;
+}
+
+.figure img {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-body {
+    max-width: 60%;
+    margin-left: 20px; /* Ajoutez une marge à gauche pour séparer l'image du texte */
+    background-color:  #7c9885;
+
+
+}
+
+.article-details-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.article-details-list li {
+    margin-bottom: 10px;
+    color: #777;
+}
+
+.article-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modify-button,
+.delete-button {
+    width: 48%;
+}
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: #fff;
+}
+.text-container {
+    max-width: 40%; /* Ajustez la largeur selon vos besoins */
+    overflow: hidden;
+}

@@ -246,3 +246,10 @@ h2 {
 .divider p {
 	font-size: 1.4rem;
 }
+.buttons-container {
+  display: flex;
+}
+
+.buttons-container button {
+  margin-right: 10px; /* Ajustez cette valeur selon vos préférences */
+}

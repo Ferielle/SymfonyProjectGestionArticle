@@ -1,0 +1,54 @@
+/* article-form.css */
+.article-form-container {
+    background-color: white;
+    padding: 30px; /* Increased padding for more space */
+    border-radius: 12px; /* Adjusted border-radius for a smoother look */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Fine-tuned box-shadow */
+    
+    /* Center the container and set a maximum width */
+    margin: auto;
+    max-width: 600px; /* Adjust the value as needed */
+    width: 100%;
+}
+
+body {
+    background-color: #7c9885; /* Your green background color */
+    color: #fff; /* Maintained text color for better contrast */
+}
+
+/* article-form.css */
+
+/* Adjust margin-bottom for better spacing */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Maintain consistency in input and textarea styling */
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+/* Maintain styling for the submit button */
+.back-button a {
+    text-decoration: none; /* Remove underline */
+    width: fit-content;
+}
+.btn-primary {
+    background-color: #fff;
+    border: 1px solid #2c974b;
+    border-radius: 6px;
+    padding: 10px 20px;
+    display: block; /* Ensure the button takes full width */
+    margin: auto; /* Center the button */
+}
+/* Ensure labels are visible */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333; /* Adjust label color as needed */
+}
+h1{
+    color: #333;
+}
