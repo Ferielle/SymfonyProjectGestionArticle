@@ -21,12 +21,15 @@ class ArticleType extends AbstractType
         ->add('description', TextareaType::class)
         ->add('image', FileType::class, ['mapped' => false]) // Assuming you're using VichUploaderBundle or similar for file uploads
         ->add('date', DateType::class)
-        ->add('theme_article', EntityType::class, [
+        ->add('theme_articles', EntityType::class, [
             'class' => THEME::class,
-            'choice_label' => 'name', // Adjust this based on your Theme entity properties
-            'multiple' => true, // Change to false if it's a ManyToOne relationship
-            'expanded' => true, // Set to false if you want a dropdown
+            'choice_label' => function (THEME $theme) {
+                return $theme->getLabeltheme() . ' - ' . $theme->getSlug();
+            },
+            'multiple' => true,
+            'expanded' => false,
         ])
+    
     ;
     
     }

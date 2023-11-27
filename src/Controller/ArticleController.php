@@ -128,22 +128,12 @@ public function deleteArticleById(int $id): JsonResponse
      */
     public function updateArticle(Request $request, $id): Response
     {
-        // Assuming the request contains JSON data
         $data = json_decode($request->getContent(), true);
-
-        // Validate or process the data as needed
-        // ...
-
-        // Retrieve the article from the database
         $entityManager = $this->getDoctrine()->getManager();
         $article = $entityManager->getRepository(Article::class)->find($id);
-
-        // Check if the article exists
         if (!$article) {
             return new Response('Article not found', Response::HTTP_NOT_FOUND);
         }
-
-        // Update the article properties
         $article->setTitle($data['title']);
         $article->setDescription($data['description']);
         $article->setImage($data['image']);
@@ -160,7 +150,6 @@ public function deleteArticleById(int $id): JsonResponse
 
         $entityManager->flush();
 
-        // Optionally, return a success response
         return new Response('Article updated successfully', Response::HTTP_OK);
     }
 }

@@ -26,10 +26,10 @@ homepage:
 web_create_article:
     path: /create-article
     controller: 'App\Controller\WebArticleController::createArticle'
-web_article_list:
-    path: /article-list
-    controller: 'App\Controller\WebArticleController::listArticles'
-
+##web_article_list:
+  ##  path: /article-list
+   ## controller: 'App\Controller\WebArticleController::listArticles'
+##
 web_article_edit:
     path: /article/edit/{id}
     controller: App\Controller\WebArticleController::editArticle
@@ -40,3 +40,6 @@ web_article_delete:
 article_details:
     path: '/article/{id}'
     controller: 'App\Controller\WebArticleController::showDetails'
+default:
+    path: '/'
+    controller: App\Controller\WebArticleController::article-list

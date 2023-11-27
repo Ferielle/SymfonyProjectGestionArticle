@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\HttpFoundation\File\File;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,7 +30,7 @@ class Article
     private $description;
 
     /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="blob", nullable=true)
      */
     private $image;
 
@@ -40,20 +40,11 @@ class Article
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity=THEME::class, mappedBy="article", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=THEME::class, fetch="EAGER", mappedBy="article", cascade={"persist"})
      */
-    private $theme_article;
+    private $theme_articles;
 
-    public function __construct()
-    {
-        $this->theme_article = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+   
     public function getTitle(): ?string
     {
         return $this->title;
@@ -101,19 +92,32 @@ class Article
 
         return $this;
     }
+    
 
-    /**
-     * @return Collection<int, THEME>
-     */
-    public function getThemeArticle(): Collection
+    public function __construct()
     {
-        return $this->theme_article;
+        $this->theme_articles = new ArrayCollection();
+    }
+
+    
+   
+   /**
+ * @return Collection<int, THEME>
+ */
+public function getThemeArticles(): Collection
+{
+    return $this->theme_articles;
+}
+
+        public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function addThemeArticle(THEME $themeArticle): self
     {
-        if (!$this->theme_article->contains($themeArticle)) {
-            $this->theme_article[] = $themeArticle;
+        if (!$this->theme_articles->contains($themeArticle)) {
+            $this->theme_articles[] = $themeArticle;
             $themeArticle->setArticle($this);
         }
 
@@ -122,7 +126,7 @@ class Article
 
     public function removeThemeArticle(THEME $themeArticle): self
     {
-        if ($this->theme_article->removeElement($themeArticle)) {
+        if ($this->theme_articles->removeElement($themeArticle)) {
             // set the owning side to null (unless already changed)
             if ($themeArticle->getArticle() === $this) {
                 $themeArticle->setArticle(null);
@@ -131,12 +135,10 @@ class Article
 
         return $this;
     }
-    //la partie de l'encodage de l'image en base64 avant de l'ajouter dans la base de donnée 
     private $imageFile;
 
 
    
-    // Setter method to handle the base64-encoded image
     public function setBase64EncodedImage($base64EncodedImage): self
     {
         $this->image = $base64EncodedImage;
@@ -149,6 +151,6 @@ class Article
      */
     public function getImageFile(): ?File
     {
-        return null; // Return null to avoid issues with VichUploader
+        return null; 
     }
 }

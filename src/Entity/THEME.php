@@ -28,7 +28,7 @@ class THEME
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="theme_article")
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="theme_articles", cascade={"persist"})
      */
     private $article;
 
@@ -72,4 +72,9 @@ class THEME
 
         return $this;
     }
+    public function __toString()
+{
+    return $this->labeltheme . ' - ' . $this->slug;
+}
+
 }

@@ -21,23 +21,18 @@ class WebArticleController extends AbstractController
 /**
      * @Route("/article/{id}", name="article_details")
      */
-    public function showDetails(Article $article,ArticleRepository $articleRepository): Response
+    public function showDetails(Article $article, ArticleRepository $articleRepository): Response
     {
-        // Utilisez cette ligne pour vérifier les données de l'image
-        dump($article->getImage());
-
-        // Utilisez find() au lieu de findbyid() pour obtenir un seul article par son ID
-        $articleDetails = $articleRepository->find($article->getId());
-
-        // Utilisez stream_get_contents uniquement si nécessaire
-        if ($articleDetails) {
-            $articleDetails->setImage(stream_get_contents($articleDetails->getImage()));
+        
+        if ($article) {
+            $article->setImage(stream_get_contents($article->getImage()));
         }
-
         return $this->render('web_article/detail.html.twig', [
-            'articleDetails' => $articleDetails,
+            'articleDetails' => $article,
+            'theme_articles' =>$article->getThemeArticles()
         ]);
     }
+    
 
 
     /**
@@ -46,29 +41,28 @@ class WebArticleController extends AbstractController
     public function createArticle(Request $request): Response
     {
         $article = new Article();
-    
-        // Create the form using ArticleType
         $form = $this->createForm(ArticleType::class, $article);
-    
-        // Handle the form submission
         $form->handleRequest($request);
     
-        // Check if the form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
-            // Handle file upload
             $uploadedFile = $form['image']->getData();
-            $encodedImage = $this->encodeImageToBase64($uploadedFile);
-
-            // Set the base64-encoded image in the article entity
-            $article->setImage($encodedImage);
-
-    
-            // Add your logic for persisting to the database if needed
+            if ($uploadedFile) {
+                $encodedImage = $this->encodeImageToBase64($uploadedFile);
+                    $article->setImage($encodedImage);
+            }
             $entityManager = $this->getDoctrine()->getManager();
+            foreach ($form['theme_articles']->getData() as $value ){
+                $theme = new THEME();
+                $theme->setArticle($article);
+                $theme->setLabeltheme($value->getLabeltheme());
+                $theme->setSlug($value->getSlug());
+
+                $entityManager->persist($theme);
+                $entityManager->flush();
+            }
+            
             $entityManager->persist($article);
             $entityManager->flush();
-    
-            // Redirect to the desired page after successful form submission
             return $this->redirectToRoute('web_article_list');
         }
     
@@ -79,21 +73,17 @@ class WebArticleController extends AbstractController
     }
     private function encodeImageToBase64($uploadedFile): string
     {
-        // Get the binary content of the file
         $fileContent = file_get_contents($uploadedFile->getPathname());
-
-        // Encode the binary content to base64
         $encodedImage = base64_encode($fileContent);
 
         return $encodedImage;
     }
     /**
-     * @Route("/article-list", name="web_article_list")
+     * @Route("/", name="web_article_list")
      */
     public function listArticles(ArticleRepository $articleRepository): Response
     {
         $articles = $articleRepository->findAll();
-
         // Use array_map to modify each article's image data
         $articles = array_map(function ($article) {
             $article->setImage(stream_get_contents($article->getImage()));

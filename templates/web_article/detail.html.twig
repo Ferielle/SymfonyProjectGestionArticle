@@ -22,6 +22,9 @@
                     <div class="article-body">
                         <h2>{{ articleDetails.title }}</h2>
                         <p>{{ articleDetails.description }}</p>
+                       
+
+</div>
                     </div>
                 </div>
             </div>
@@ -29,6 +32,9 @@
             <ul class="article-details-list">
                 <li><strong>Date de publication:</strong> {{ articleDetails.date|date('Y-m-d') }}</li>
                 {# Ajoutez d'autres détails de l'article ici #}
+                {% for theme in theme_articles %}
+                <li>{{ theme.slug }}</li>
+                {% endfor %}
             </ul>
             
             <div class="article-buttons">
