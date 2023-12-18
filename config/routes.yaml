@@ -17,7 +17,7 @@ article_delete:
 article_update:
     path: /api/articles/update/{id}
     controller: 'App\Controller\ArticleController::updateArticle'
-    methods: ['PUT']
+    
 homepage:
     path: /
     controller: 'App\Controller\HomePageController::index'
@@ -26,10 +26,7 @@ homepage:
 web_create_article:
     path: /create-article
     controller: 'App\Controller\WebArticleController::createArticle'
-##web_article_list:
-  ##  path: /article-list
-   ## controller: 'App\Controller\WebArticleController::listArticles'
-##
+
 web_article_edit:
     path: /article/edit/{id}
     controller: App\Controller\WebArticleController::editArticle

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\ArticleRepository;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +13,14 @@ use App\Entity\Article;
 use Symfony\Component\Validator\Constraints\DateTime;
 class ArticleController extends AbstractController
 {
+
+    private $articleRepository;
+
+    public function __construct(ArticleRepository $articleRepository)
+    {
+        $this->articleRepository = $articleRepository;
+    }
+    
     /**
      * @Route("/article", name="app_article")
      */
@@ -20,6 +30,7 @@ class ArticleController extends AbstractController
             'controller_name' => 'ArticleController',
         ]);
     }
+
     /**
      * @Route("/api/addarticles", name="api_article_add", methods={"POST"})
      */
@@ -47,7 +58,7 @@ class ArticleController extends AbstractController
         return $this->json(['message' => 'Article added successfully'], 201);
     }
 
-    /**
+/**
  * @Route("/api/articles", name="api_article_list", methods={"GET"})
  */
 public function getAllArticles(): JsonResponse
@@ -72,10 +83,10 @@ public function getAllArticles(): JsonResponse
 /**
  * Helper method to get themes for a given article.
  */
-private function getThemesForArticle(Article $article): array
+public function getThemesForArticle(Article $article): array
 {
     $themes = [];
-    foreach ($article->getThemeArticle() as $theme) {
+    foreach ($article->getThemeArticles() as $theme) {
         $themes[] = [
             'labeltheme' => $theme->getLabeltheme(),
             'slug' => $theme->getSlug(),
@@ -106,6 +117,7 @@ public function getArticleById(int $id): JsonResponse
 
     return $this->json($formattedArticle);
 }
+
 /**
  * @Route("/api/articles/delete/{id}", name="api_article_delete", methods={"DELETE"})
  */
@@ -114,8 +126,8 @@ public function deleteArticleById(int $id): JsonResponse
     $entityManager = $this->getDoctrine()->getManager();
     $article = $entityManager->getRepository(Article::class)->find($id);
 
-    if (!$article) {
-        return $this->json(['message' => 'Article not found'], 404);
+    foreach ($article->getThemeArticles() as $theme) {
+        $entityManager->remove($theme);
     }
 
     $entityManager->remove($article);
@@ -123,30 +135,38 @@ public function deleteArticleById(int $id): JsonResponse
 
     return $this->json(['message' => 'Article deleted successfully'], 200);
 }
+
  /**
-     * @Route("/api/articles/update/{id}", name="article_update", methods={"PUT"})
-     */
+  * @Route("/articles/update/{id}", name="update_article", methods={"PUT"})
+  */
     public function updateArticle(Request $request, $id): Response
     {
-        $data = json_decode($request->getContent(), true);
         $entityManager = $this->getDoctrine()->getManager();
         $article = $entityManager->getRepository(Article::class)->find($id);
+
         if (!$article) {
             return new Response('Article not found', Response::HTTP_NOT_FOUND);
         }
+        $data = json_decode($request->getContent(), true);
+
         $article->setTitle($data['title']);
         $article->setDescription($data['description']);
         $article->setImage($data['image']);
         $date = new \DateTime($data['date']);
         $article->setDate($date);
+
+        foreach ($article->getThemeArticles() as $theme) {
+            $entityManager->remove($theme);
+        }
+
         foreach ($data['theme_article'] as $themeData) {
-            $theme = new THEME();
+            $theme = new Theme();
             $theme->setLabeltheme($themeData['labeltheme']);
             $theme->setSlug($themeData['slug']);
             $theme->setArticle($article); // Set the association
+            $entityManager->persist($theme);
         }
-
-
+        $entityManager->persist($article);
 
         $entityManager->flush();
 

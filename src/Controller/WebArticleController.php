@@ -134,6 +134,9 @@ public function editArticle(Request $request): Response
     public function deleteArticle(Request $request, Article $article): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+        foreach ($article->getThemeArticles() as $theme) {
+            $entityManager->remove($theme);
+        }
         $entityManager->remove($article);
         $entityManager->flush();
 
